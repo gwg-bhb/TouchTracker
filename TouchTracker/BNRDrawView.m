@@ -29,6 +29,16 @@
         self.finishedLines = [[NSMutableArray alloc] init];
         self.backgroundColor = [UIColor grayColor];
         self.multipleTouchEnabled = YES;
+        
+        
+        UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap)];
+        doubleTapRecognizer.numberOfTapsRequired = 2;
+        doubleTapRecognizer.delaysTouchesBegan = YES;
+        [self addGestureRecognizer:doubleTapRecognizer];
+        
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+        tapRecognizer.delaysTouchesBegan = YES;
+        [self addGestureRecognizer:tapRecognizer];
     }
     
     return self;
@@ -63,9 +73,23 @@
 //    }
 }
 
+- (void)doubleTap:(UIGestureRecognizer *)gr
+{
+    
+    NSLog(@"Recognized Double Tap");
+    [self.linesInProgress removeAllObjects];
+    [self.finishedLines removeAllObjects];
+    [self setNeedsDisplay];
+}
+
+- (void)tap:(UIGestureRecognizer *)gr
+{
+    NSLog(@"Recognized Tap");
+}
+
 #pragma mark - touch methods
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     
